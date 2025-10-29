@@ -58,44 +58,9 @@
   ]
   technologies = ["Sales", "Customer Service", "Product Management", "Communication"]
 
-# ================================
-# 🎓 EDUCATION
-# ================================
+[[experience]]
+  role = "Open Source Contributer"
+  company = "GitHub"
+  company_link = "https://github.com/livehass"
+  period = "May 2025 - Present"
 
-[[education]]
-  degree = "Bachelor's in Systems Analysis and Development"
-  institution = "Universidade Anhanguera São Paulo"
-  period = "Jan 2025 - Dec 2026"
-
-[[education]]
-  degree = "Fullstack Java Developer Bootcamp"
-  institution = "Generation Brasil"
-  period = "Oct 2023 - Feb 2024"
-
-[[education]]
-  degree = "Advanced Computing Course"
-  institution = "SENAI 'Ary Torres' School"
-  period = "2011 - 2012"
-
-# ================================
-# 📜 CERTIFICATIONS
-# ================================
-
-certifications = [
-  "Practice HTML and CSS in Web Projects",
-  "JavaScript and HTML: Build a Game and Practice Programming Logic",
-  "HTML5 and CSS3 Part 4: Advancing in CSS",
-  "JavaScript and HTML: Practice Logic with Drawings, Animations, and a Game",
-  "Develop Web Applications with JavaScript"
-]
-
-# ================================
-# 📞 CONTACT INFORMATION
-# ================================
-
-[contact]
-  phone = "+55 11 91322-9369"
-  email = "silva.felipe12@hotmail.com"
-  linkedin = "https://www.linkedin.com/in/felipesiper"
-  portfolio = "https://www.jorgefelipe.tech"
-  github = "https://github.com/livehass"

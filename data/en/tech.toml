@@ -1,7 +1,3 @@
-# ============================
-# 💻 Backend Stack
-# ============================
-
 row1 = [
   { icon = "devicon-java-plain", name = "Java" },
   { icon = "devicon-spring-plain", name = "Spring Boot" },
@@ -14,10 +10,6 @@ row1 = [
   { icon = "devicon-git-plain", name = "Git" },
   { icon = "devicon-github-original", name = "GitHub" }
 ]
-
-# ============================
-# 🎨 Frontend Stack
-# ============================
 
 row2 = [
   { icon = "devicon-react-original", name = "React" },

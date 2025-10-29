@@ -6,7 +6,7 @@
 <div class="w-full md:w-4/5 lg:w-3/5 mx-auto px-14 py-12">
     <!-- Hero Section -->
     {{ $authorData := index site.Data .Language.Lang "author" }}
-    {{ $author := $authorData | default site.Params }}
+    {{ $author := cond (and $authorData $authorData.author) $authorData.author site.Params }}
     
     {{ with $author }}
     <section class="mb-16">
@@ -19,7 +19,7 @@
                 </p>
                 <p class="text-xl mb-6 text-text-primary-light dark:text-text-primary-dark">{{ .description }}</p>
             </div>
-            <!-- Social Icons -->
+            <!-- Social Icons - Moved to bottom for mobile -->
             <div class="mt-8 md:mt-0 flex flex-wrap justify-center gap-3 md:absolute md:top-4 md:right-4 md:flex-nowrap md:justify-end md:mt-0">
                 {{ with .email }}
                 <a href="mailto:{{ . }}" class="text-text-secondary-light dark:text-text-secondary-dark hover:text-text-primary-light dark:hover:text-text-primary-dark bg-bg-tertiary-light dark:bg-bg-tertiary-dark p-2 rounded-md border border-border-secondary-light dark:border-border-secondary-dark hover:border-border-primary-light dark:hover:border-border-primary-dark transition-all">
@@ -96,36 +96,44 @@
     {{ end }}
 
     <!-- Experience Section -->
-   {{ with index site.Data .Language.Lang }}
-    {{ with .experience }}
-    <section class="mb-20">
+    {{ $experienceData := index site.Data .Language.Lang "experience" }}
+    {{ $experience := cond (and $experienceData $experienceData.experience) $experienceData.experience site.Params.experience }}
+
+    {{ with $experience }}
+    <section>
         <h2 class="text-4xl font-bold mb-5">{{ T "experienceTitle" }}</h2>
         <div class="space-y-4 max-w-3xl mx-auto">
-            {{ range . }}
+            {{ range $index, $exp := . }}
             <div class="relative pl-8 before:content-[''] before:absolute before:left-0 before:top-0 before:w-[2px] before:h-full before:bg-gray-700 before:rounded-full">
+                {{ if eq .company "Open Source Contributor" }}
+                <div class="absolute -left-1.5 top-0 w-3 h-3 bg-[#121212] border border-blue-400 rounded-full"></div>
+                {{ else }}
                 <div class="absolute -left-1.5 top-0 w-2 h-2 bg-gray-700 rounded-full"></div>
-                
-                <div class="text-gray-400 text-xl mb-1 font-medium">
-                    {{ .company }}
+                {{ end }}
+                <div class="text-gray-400 text-xl mb-1">
+                    {{ if .company_link }}
+                        <a href="{{ .company_link }}" target="_blank" rel="noopener noreferrer" class="group inline-flex items-center gap-2 font-medium hover:text-accent-light dark:hover:text-accent-dark transition-colors duration-200">
+                            {{ .company }}
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-70 group-hover:opacity-100 transition-opacity duration-200">
+                                <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                            </svg>
+                        </a>
+                    {{ else }}
+                        {{ .company }}
+                    {{ end }}
                 </div>
-                
                 <p class="text-2xl font-semibold">{{ .role }}</p>
                 <p class="text-gray-400 font-semibold">{{ .period }}</p>
-                <p class="text-gray-400 text-sm">{{ .country }}</p>
-                
-                {{ if .responsibilities }}
-                <ul class="mt-2 list-disc list-inside text-text-secondary-light dark:text-text-secondary-dark space-y-1">
-                    {{ range .responsibilities }}
-                        <li>{{ . }}</li>
-                    {{ end }}
-                </ul>
-                {{ end }}
+                <p class="text-gray-400 text-sm">{{ if .country }} {{ .country }}{{ end }}</p>
+                <p class="mt-2">{{ .description }}</p>
             </div>
             {{ end }}
         </div>
     </section>
+    {{ else }}
+    {{ warnf "No experience data found for language %q. Please define either data/%s/experience.(yaml|toml|json) or params.experience in config." .Language.Lang }}
     {{ end }}
-{{ end }}
+
     <!-- Projects Section -->
     {{ $projects := where site.RegularPages.ByDate.Reverse "Section" "projects" }}
     {{ with $projects }}
@@ -384,4 +392,4 @@ function showToaster(message) {
     }, 3000); 
 }
 </script>
-{{ end }}
+{{ end }} 
