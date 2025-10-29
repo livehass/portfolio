@@ -1,0 +1,98 @@
+# ================================
+# 💼 PROFESSIONAL EXPERIENCE
+# ================================
+
+[[experience]]
+  role = "Back-End Developer | Java & Spring Boot"
+  company = "Freelancer"
+  company_link = "https://www.linkedin.com/in/felipesiper/"
+  period = "March 2024 - Present"
+  country = "Brazil"
+  responsibilities = [
+    "Developing fullstack applications focused on Java, Spring Boot, and React.",
+    "Creating RESTful APIs integrated with MySQL and PostgreSQL databases.",
+    "Implementing authentication and authorization with Spring Security.",
+    "Using Docker for containerization and environment standardization.",
+    "Building responsive interfaces using Tailwind CSS and React.",
+    "Collaborating through Git and GitHub for version control and code reviews.",
+    "Applying CI/CD best practices for testing and continuous deployment."
+  ]
+  technologies = ["Java", "Spring Boot", "React", "Tailwind CSS", "Node.js", "Docker", "MySQL", "PostgreSQL", "Git", "GitHub", "JavaScript", "TypeScript"]
+
+[[experience]]
+  role = "Sales Consultant (B2B)"
+  company = "PremieRpet"
+  period = "September 2023 - January 2025"
+  country = "Brazil"
+  responsibilities = [
+    "Developed skills in negotiation, client needs analysis, and data management.",
+    "Enhanced communication and analytical abilities applied to software projects.",
+    "Transferred soft skills to the tech field, improving requirement gathering and project prioritization."
+  ]
+  technologies = ["CRM", "Communication", "Negotiation", "Customer Relations"]
+
+[[experience]]
+  role = "Rental Assistant"
+  company = "Movida Car Rental"
+  period = "January 2022 - September 2023"
+  country = "Brazil"
+  responsibilities = [
+    "Provided customer service and technical assistance during the rental process.",
+    "Managed client and product data using internal systems.",
+    "Strengthened key soft skills applicable to software development: empathy, clear communication, and problem-solving."
+  ]
+  technologies = ["Customer Service", "Data Management", "Communication", "Problem Solving"]
+
+[[experience]]
+  role = "Sales Associate"
+  company = "Mercadão Pet"
+  period = "January 2019 - April 2022"
+  country = "Brazil"
+  responsibilities = [
+    "Sold and advised customers on veterinary and pet shop products.",
+    "Developed strong communication and product analysis skills.",
+    "Applied discipline and focus to continuous learning and software development."
+  ]
+  technologies = ["Sales", "Customer Service", "Product Management", "Communication"]
+
+# ================================
+# 🎓 EDUCATION
+# ================================
+
+[[education]]
+  degree = "Bachelor's in Systems Analysis and Development"
+  institution = "Universidade Anhanguera São Paulo"
+  period = "Jan 2025 - Dec 2026"
+
+[[education]]
+  degree = "Fullstack Java Developer Bootcamp"
+  institution = "Generation Brasil"
+  period = "Oct 2023 - Feb 2024"
+
+[[education]]
+  degree = "Advanced Computing Course"
+  institution = "SENAI 'Ary Torres' School"
+  period = "2011 - 2012"
+
+# ================================
+# 📜 CERTIFICATIONS
+# ================================
+
+certifications = [
+  "Practice HTML and CSS in Web Projects",
+  "JavaScript and HTML: Build a Game and Practice Programming Logic",
+  "HTML5 and CSS3 Part 4: Advancing in CSS",
+  "JavaScript and HTML: Practice Logic with Drawings, Animations, and a Game",
+  "Develop Web Applications with JavaScript"
+]
+
+# ================================
+# 📞 CONTACT INFORMATION
+# ================================
+
+[contact]
+  phone = "+55 11 91322-9369"
+  email = "silva.felipe12@hotmail.com"
+  linkedin = "https://www.linkedin.com/in/felipesiper"
+  portfolio = "https://www.jorgefelipe.tech"
+  github = "https://github.com/livehass"

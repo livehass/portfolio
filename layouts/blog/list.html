@@ -1,0 +1,37 @@
+{{ define "main" }}
+    <div class="max-w-4xl mx-auto px-4 py-12">
+        <h1 class="text-5xl font-bold mb-12 text-text-primary-light dark:text-text-primary-dark">
+            {{ .Title }}
+        </h1>
+        <div class="space-y-12">
+            {{ $pages := where (where site.RegularPages.ByDate.Reverse "Section" "blog") "Params.draft" "ne" true }}
+            {{ range $pages }}
+                <div class="relative pl-8 pt-4 before:content-[''] before:absolute before:left-0 before:top-2 before:w-[3px] before:h-full before:bg-gray-700 before:rounded-full">
+                    <div class="absolute -left-1.5 top-2 w-2 h-2 bg-gray-700 rounded-full"></div>
+                    <div>
+                        <p class="text-text-secondary-light dark:text-text-secondary-dark text-sm mb-2">
+                            {{ .Date.Format "January 2, 2006" }}
+                        </p>
+                        <a href="{{ .RelPermalink }}" class="block group">
+                            <h2 class="text-3xl font-semibold text-text-primary-light dark:text-text-primary-dark transition-colors duration-200 group-hover:text-accent-light dark:group-hover:text-accent-dark mb-3">
+                                {{ .Title }}
+                            </h2>
+                        </a>
+                        <p class="text-lg text-text-secondary-light dark:text-text-secondary-dark mb-4">
+                            {{ .Params.description }}
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            {{ with .Params.tags }}
+                                {{ range . }}
+                                    <span class="px-3 py-1 text-xs bg-bg-primary-light dark:bg-bg-tertiary-dark text-text-secondary-light dark:text-text-secondary-dark border border-border-primary-light dark:border-border-primary-dark rounded-full">
+                                        {{ . }}
+                                    </span>
+                                {{ end }}
+                            {{ end }}
+                        </div>
+                    </div>
+                </div>
+            {{ end }}
+        </div>
+    </div>
+{{ end }}

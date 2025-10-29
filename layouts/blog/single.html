@@ -1,0 +1,35 @@
+{{ define "main" }}
+<div class="max-w-4xl mx-auto px-4 py-12">
+
+    <section class="mb-8">
+        <h1 class="text-5xl font-bold mb-4 text-text-primary-light dark:text-text-primary-dark">{{ .Title }}</h1>
+        
+        <div class="flex flex-wrap items-center justify-between gap-4 pt-2">
+            <div class="flex items-center gap-2 text-text-secondary-light dark:text-text-secondary-dark text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
+            </div>
+            <div class="flex flex-wrap gap-2">
+                {{ with .Params.tags }}
+                    {{ range . }}
+                    <span class="px-3 py-1 text-xs bg-bg-primary-light dark:bg-bg-tertiary-dark text-text-secondary-light dark:text-text-secondary-dark border border-border-primary-light dark:border-border-primary-dark rounded-full">{{ . }}</span>
+                    {{ end }}
+                {{ end }}
+            </div>
+        </div>
+    </section>
+
+    <div class="bg-bg-primary-light dark:bg-bg-secondary-dark p-6 md:p-8 rounded-lg border border-border-primary-light dark:border-border-primary-dark">
+        <article class="prose prose-lg dark:prose-invert max-w-none">
+            {{ .Content }}
+        </article>
+
+        <div class="mt-12 pt-8 border-t border-border-secondary-light dark:border-border-secondary-dark text-center">
+            <a href="{{ "blog/" | absLangURL }}" class="font-medium text-accent-light dark:text-accent-dark hover:underline">
+                &larr; Back to All Posts
+            </a>
+        </div>
+    </div>
+</div>
+
+{{ end }}
