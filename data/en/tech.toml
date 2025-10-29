@@ -1,8 +1,9 @@
+[params]
+
 # ============================
 # 💻 Backend Stack
 # ============================
-
-row1 = [
+backend_stack = [
   { icon = "devicon-java-plain", name = "Java" },
   { icon = "devicon-spring-plain", name = "Spring Boot" },
   { icon = "devicon-cobol-original", name = "Cobol" },
@@ -18,8 +19,7 @@ row1 = [
 # ============================
 # 🎨 Frontend Stack
 # ============================
-
-row2 = [
+frontend_stack = [
   { icon = "devicon-react-original", name = "React" },
   { icon = "devicon-angular-plain", name = "Angular" },
   { icon = "devicon-javascript-plain", name = "JavaScript" },
