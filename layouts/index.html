@@ -92,34 +92,40 @@
         {{ warnf "No tech stack data found for language %q. Please define either data/%s/tech.(yaml|toml|json) or params.tech in config." .Language.Lang }}
     {{ end }}
 
-   <!-- Experience Section -->
+   
 <!-- Experience Section -->
 {{ $experienceData := index site.Data .Language.Lang "experience" }}
-{{ if $experienceData }}
-    {{ range $index, $item := $experienceData }}
+
+{{ if $experienceData.experience }}
+    {{ range $index, $item := $experienceData.experience }}
         <section class="py-12 border-b border-border-light dark:border-border-dark">
             <h2 class="text-3xl font-bold mb-6 text-text-primary-light dark:text-text-primary-dark">
-                {{ index $item "role" }}
+                {{ $item.role }}
             </h2>
             <p class="text-lg mb-2 text-text-secondary-light dark:text-text-secondary-dark">
-                <strong>{{ index $item "company" }}</strong> — {{ index $item "period" }}
+                <strong>{{ $item.company }}</strong> — {{ $item.period }}
             </p>
             <p class="text-text-secondary-light dark:text-text-secondary-dark mb-4">
-                {{ index $item "country" }}
+                {{ $item.country }}
             </p>
 
-            {{ $responsibilities := index $item "responsibilities" }}
-            {{ if $responsibilities }}
+            {{ if $item.responsibilities }}
             <ul class="list-disc list-inside text-text-secondary-light dark:text-text-secondary-dark space-y-2">
-                {{ range $responsibilities }}
+                {{ range $item.responsibilities }}
                     <li>{{ . }}</li>
                 {{ end }}
             </ul>
             {{ end }}
+
+            {{ if $item.technologies }}
+            <p class="mt-2 text-sm text-text-secondary-light dark:text-text-secondary-dark">
+                <strong>Technologies:</strong> {{ delimit $item.technologies ", " }}
+            </p>
+            {{ end }}
         </section>
     {{ end }}
 {{ else }}
-    {{ warnf "No experience data found for language %q. Please check data/%s/experience.(yaml|toml|json)." .Language.Lang .Language.Lang }}
+    {{ warnf "No experience data found for language %q. Please check data/%s/experience.toml" .Language.Lang .Language.Lang }}
 {{ end }}
 
 
