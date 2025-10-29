@@ -1,6 +1,6 @@
-baseURL = "https://kitbur.github.io"
+baseURL = "https://jorgefelipe.info/"
 languageCode = 'en-us'
-title = 'K. Burford'
+title = 'Jorge Felipe'
 theme = 'hugo-noir'
 defaultContentLanguage = "en"
 defaultContentLanguageInSubdir = false
@@ -18,26 +18,26 @@ canonifyURLs = true
 style = "dracula"
 
 [params]
-name = "K. Burford"
-location = "Ohio, USA"
-description = "Full-stack software engineer focused on building flexible web applications and supporting open source initiatives."
+name = "Jorge Felipe"
+location = "São paulo, Brazil"
+description = "Full-stack software engineer focused on developing scalable web applications and supporting open-source initiatives. Currently expanding my expertise in back-end technologies and studying COBOL."
 # profile_image = "/images/profile.jpg"
-discord = "kiturf"
-github = "https://github.com/kitbur"
-github_username = "kitbur"
-# email = "johndoe@example.com"
-# twitter = "https://www.twitter.com/johndoe123"
-# twitter_username = "johndoe123"
-# medium = "https://www.medium.com/@johndoe123"
-# linkedin = "https://www.linkedin.com/in/johndoe123"
-# linkedin_username = "johndoe123"
-# instagram = "https://instagram.com/johndoe123"
-# leetcode = "https://leetcode.com/johndoe123"
-# leetcode_username = "johndoe123"
-# monkeytype = "https://monkeytype.com/profile/johndoe123"
-# monkeytype_username = "johndoe123"
-# kaggle = "https://www.kaggle.com/johndoe123"
-# kaggle_username = "johndoe123"
+discord = ""
+github = "https://github.com/livehass"
+github_username = "livehass"
+# email = ""
+# twitter = ""
+# twitter_username = ""
+# medium = ""
+# linkedin = "https://www.linkedin.com/in/felipesiper/"
+# linkedin_username = "felipesiper"
+# instagram = ""
+# leetcode = ""
+# leetcode_username = ""
+# monkeytype = ""
+# monkeytype_username = ""
+# kaggle = ""
+# kaggle_username = ""
 
 [menu]
   [[menu.main]]
