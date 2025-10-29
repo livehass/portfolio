@@ -5,15 +5,16 @@
 </head>
 <div class="w-full md:w-4/5 lg:w-3/5 mx-auto px-14 py-12">
     <!-- Hero Section -->
-   {{ $authorData := index site.Data .Language.Lang "author" }}
+{{ $authorData := index site.Data .Language.Lang "author" }}
+{{ $.Scratch.Set "author" site.Params }} <!-- valor padrão -->
+
 {{ with $authorData.author }}
-    {{ $author := . }}
-{{ else }}
-    {{ $author := site.Params }}
+    {{ $.Scratch.Set "author" . }} <!-- sobrescreve se existir -->
 {{ end }}
 
-    
-    {{ with $author }}
+<!-- Usando o author -->
+<p>{{ $.Scratch.Get "author" }}</p>
+
     <section class="mb-16">
         <div class="max-w-3xl ml-0 p-4 pb-2 border border-border-primary-light dark:border-border-primary-dark rounded-lg bg-bg-secondary-light dark:bg-bg-secondary-dark shadow-lg relative">
             <div class="text-left">
