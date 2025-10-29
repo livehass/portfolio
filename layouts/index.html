@@ -51,10 +51,10 @@
             </div>
         </div>
     </section>
-    {{ else }}
+    {{ if not $authorData }}
     {{ warnf "Author data not found. Please check your site configuration." }}
-    {{ end }}
-      
+{{ end }}
+
     <!-- Tech Stack -->
     {{ with (index site.Data .Language.Lang "tech") }}
         <section class="mb-20">
