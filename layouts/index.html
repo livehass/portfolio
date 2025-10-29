@@ -8,44 +8,37 @@
 <div class="w-full md:w-4/5 lg:w-3/5 mx-auto px-14 py-12">
 
     <!-- Hero Section -->
-    {{ $authorData := index site.Data .Language.Lang "author" }}
     {{ $author := site.Params.author }}
-
-    {{ with $authorData }}
-        {{ $authorDataInner := .author }}
-    {{ end }}
+    {{ $authorData := index site.Data .Language.Lang "author" }}
+    {{ $authorSafe := $authorData.author | default $author }}
 
     <section class="mb-16">
         <div class="max-w-3xl ml-0 p-4 pb-2 border border-border-primary-light dark:border-border-primary-dark rounded-lg bg-bg-secondary-light dark:bg-bg-secondary-dark shadow-lg relative">
             <div class="text-left">
-                <h1 class="text-4xl font-bold mb-2 text-text-primary-light dark:text-text-primary-dark">
-                    {{ with $authorDataInner.name }}{{ . }}{{ else }}{{ $author.name }}{{ end }}
-                </h1>
+                <h1 class="text-4xl font-bold mb-2 text-text-primary-light dark:text-text-primary-dark">{{ $authorSafe.name }}</h1>
                 <p class="text-gray-400 mb-3 flex items-center text-xl">
                     <svg xmlns="http://www.w3.org/2000/svg" class="text-gray-400" width="24" height="24" viewBox="-7 -2 24 24">
                         <path fill="currentColor" d="M4 9.9A5.002 5.002 0 0 1 5 0a5 5 0 0 1 1 9.9V19a1 1 0 0 1-2 0V9.9zM5 8a3 3 0 1 0 0-6a3 3 0 0 0 0 6z"/>
                     </svg>
-                    {{ with $authorDataInner.location }}{{ . }}{{ else }}{{ $author.location }}{{ end }}
+                    {{ $authorSafe.location }}
                 </p>
-                <p class="text-xl mb-6 text-text-primary-light dark:text-text-primary-dark">
-                    {{ with $authorDataInner.description }}{{ . }}{{ else }}{{ $author.description }}{{ end }}
-                </p>
+                <p class="text-xl mb-6 text-text-primary-light dark:text-text-primary-dark">{{ $authorSafe.description }}</p>
             </div>
 
             <!-- Social Icons -->
             <div class="mt-8 md:mt-0 flex flex-wrap justify-center gap-3 md:absolute md:top-4 md:right-4 md:flex-nowrap md:justify-end md:mt-0">
-                {{ with $authorDataInner.email }}<a href="mailto:{{ . }}" class="social-btn">Email SVG</a>{{ else }}{{ with $author.email }}<a href="mailto:{{ . }}" class="social-btn">Email SVG</a>{{ end }}{{ end }}
-                {{ with $authorDataInner.github }}<a href="{{ . }}" target="_blank" rel="noopener noreferrer" class="social-btn">GitHub SVG</a>{{ else }}{{ with $author.github }}<a href="{{ . }}" target="_blank" rel="noopener noreferrer" class="social-btn">GitHub SVG</a>{{ end }}{{ end }}
-                {{ with $authorDataInner.linkedin }}<a href="{{ . }}" target="_blank" rel="noopener noreferrer" class="social-btn">LinkedIn SVG</a>{{ else }}{{ with $author.linkedin }}<a href="{{ . }}" target="_blank" rel="noopener noreferrer" class="social-btn">LinkedIn SVG</a>{{ end }}{{ end }}
+                {{ with $authorSafe.email }}<a href="mailto:{{ . }}" class="social-btn">Email SVG</a>{{ end }}
+                {{ with $authorSafe.github }}<a href="{{ . }}" target="_blank" rel="noopener noreferrer" class="social-btn">GitHub SVG</a>{{ end }}
+                {{ with $authorSafe.linkedin }}<a href="{{ . }}" target="_blank" rel="noopener noreferrer" class="social-btn">LinkedIn SVG</a>{{ end }}
             </div>
         </div>
     </section>
 
     <!-- Tech Stack Section -->
     {{ $techData := index site.Data .Language.Lang "tech" }}
-    {{ $tech := $techData | default site.Params.tech }}
+    {{ $techSafe := $techData | default site.Params.tech }}
 
-    {{ with $tech }}
+    {{ with $techSafe }}
     <section class="mb-20">
         <h2 class="text-4xl font-bold mb-2 relative">{{ T "whatIWorkWith" }}</h2>
         <div class="tech-carousel">
@@ -69,9 +62,9 @@
 
     <!-- Experience Section -->
     {{ $experienceData := index site.Data .Language.Lang "experience" }}
-    {{ $experience := $experienceData.experience | default site.Params.experience }}
+    {{ $experienceSafe := $experienceData.experience | default site.Params.experience }}
 
-    {{ with $experience }}
+    {{ with $experienceSafe }}
     <section>
         <h2 class="text-4xl font-bold mb-5">{{ T "experienceTitle" }}</h2>
         <div class="space-y-4 max-w-3xl mx-auto">
