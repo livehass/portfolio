@@ -93,23 +93,25 @@
     {{ end }}
 
    <!-- Experience Section -->
+<!-- Experience Section -->
 {{ $experienceData := index site.Data .Language.Lang "experience" }}
 {{ if $experienceData }}
-    {{ range $experienceData }}
+    {{ range $index, $item := $experienceData }}
         <section class="py-12 border-b border-border-light dark:border-border-dark">
             <h2 class="text-3xl font-bold mb-6 text-text-primary-light dark:text-text-primary-dark">
-                {{ .role }}
+                {{ index $item "role" }}
             </h2>
             <p class="text-lg mb-2 text-text-secondary-light dark:text-text-secondary-dark">
-                <strong>{{ .company }}</strong> — {{ .period }}
+                <strong>{{ index $item "company" }}</strong> — {{ index $item "period" }}
             </p>
             <p class="text-text-secondary-light dark:text-text-secondary-dark mb-4">
-                {{ .country }}
+                {{ index $item "country" }}
             </p>
 
-            {{ if .responsibilities }}
+            {{ $responsibilities := index $item "responsibilities" }}
+            {{ if $responsibilities }}
             <ul class="list-disc list-inside text-text-secondary-light dark:text-text-secondary-dark space-y-2">
-                {{ range .responsibilities }}
+                {{ range $responsibilities }}
                     <li>{{ . }}</li>
                 {{ end }}
             </ul>
@@ -119,6 +121,7 @@
 {{ else }}
     {{ warnf "No experience data found for language %q. Please check data/%s/experience.(yaml|toml|json)." .Language.Lang .Language.Lang }}
 {{ end }}
+
 
     <!-- Projects Section -->
     {{ $projects := where site.RegularPages.ByDate.Reverse "Section" "projects" }}
