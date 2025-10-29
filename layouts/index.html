@@ -102,20 +102,19 @@
         <h2 class="text-4xl font-bold mb-5">{{ T "experienceTitle" }}</h2>
         <div class="space-y-4 max-w-3xl mx-auto">
             {{ range $experienceData }}
-            <div class="relative pl-8 before:content-[''] before:absolute before:left-0 before:top-0 before:w-[2px] before:h-full before:bg-gray-700 before:rounded-full">
-                <div class="absolute -left-1.5 top-0 w-2 h-2 bg-gray-700 rounded-full"></div>
-                <div class="text-gray-400 text-xl mb-1">
-                            {{ with .company_link }}
-                                <a href="{{ . }}" target="_blank" rel="noopener noreferrer" class="group inline-flex items-center gap-2 font-medium hover:text-accent-light dark:hover:text-accent-dark transition-colors duration-200">
-                                    {{ $.company }}
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-70 group-hover:opacity-100 transition-opacity duration-200">
-                                        <path d="M7 17l9.2-9.2M17 17V7H7"/>
-                                    </svg>
-                                </a>
-                            {{ else }}
-                                {{ .company }}
-                            {{ end }}
-                </div>
+    {{ $exp := . }} <!-- define variável para o item atual -->
+    <div class="text-gray-400 text-xl mb-1">
+        {{ with $exp.company_link }}
+            <a href="{{ . }}" target="_blank" rel="noopener noreferrer" class="group inline-flex items-center gap-2 font-medium hover:text-accent-light dark:hover:text-accent-dark transition-colors duration-200">
+                {{ $exp.company }}
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-70 group-hover:opacity-100 transition-opacity duration-200">
+                    <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                </svg>
+            </a>
+        {{ else }}
+            {{ $exp.company }}
+        {{ end }}
+    </div>
                 <p class="text-2xl font-semibold">{{ .role }}</p>
                 <p class="text-gray-400 font-semibold">{{ .period }}</p>
                 <p class="text-gray-400 text-sm">{{ if .country }} {{ .country }}{{ end }}</p>
