@@ -4,11 +4,10 @@
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
 </head>
 <div class="w-full md:w-4/5 lg:w-3/5 mx-auto px-14 py-12">
- {{ $author := site.Params.author }}
-  {{ $authorData := index site.Data .Language.Lang "author" }}
-
-  {{ if and $authorData (isset $authorData "author") }}
-    {{ $author = $authorData.author }}
+ {{ $authorData := index site.Data .Language.Lang "author" }}
+    {{ $author := cond (and $authorData $authorData.author) $authorData.author site.Params }}
+    
+    {{ with $author }}
   
   {{ with $author }}
   <section class="mb-16">
