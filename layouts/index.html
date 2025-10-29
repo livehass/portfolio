@@ -95,21 +95,16 @@
                 </div>
             </div>
         </section>
-    {{ else }}
-        {{ warnf "No tech stack data found for language %q. Please define either data/%s/tech.(yaml|toml|json) or params.tech in config." .Language.Lang }}
-    {{ end }}
-
-    <!-- Experience Section -->
-      {{ $experienceData := index site.Data .Language.Lang "experience" }}
-    {{ if and $experienceData (gt (len $experienceData) 0) }}
-        {{ range $experienceData }}
-            ...
+        {{ else }}
+            {{ warnf "No experience data found for language %q." .Language.Lang }}
         {{ end }}
-    {{ else }}
-        {{ warnf "No experience data found for language %q." .Language.Lang }}
-    {{ end }}
-
-    {{ with $experience }}
+            <!-- Experience Section -->
+      {{ $experienceData := index site.Data .Language.Lang "experience" }}
+        {{ if and $experienceData (gt (len $experienceData) 0) }}
+            <section id="experience">
+                {{ range $experienceData }}
+                    ...
+                {{ end }}
     <section>
         <h2 class="text-4xl font-bold mb-5">{{ T "experienceTitle" }}</h2>
         <div class="space-y-4 max-w-3xl mx-auto">
