@@ -2,14 +2,13 @@
   "version": 2,
   "builds": [
     {
-      "src": "config.toml",
+      "src": ".",
       "use": "@vercel/static-build",
-      "config": {
-        "distDir": "public"
-      }
+      "config": { "distDir": "public" }
     }
   ],
   "env": {
-    "HUGO_VERSION": "0.115.0"
-  }
+    "HUGO_VERSION": "0.110.0"
+  },
+  "buildCommand": "git submodule update --init --recursive && hugo"
 }
