@@ -21,7 +21,21 @@
   <div class="space-y-8">
     {{ $experienceData := index site.Data .Language.Lang "experience" }} {{ with
     $experienceData.experience }} {{ range . }}
-    <!-- conteúdo do experience aqui -->
+    <div
+      class="p-6 rounded-lg bg-bg-primary-light dark:bg-bg-secondary-dark border border-border-primary-light dark:border-border-primary-dark"
+    >
+      <h3
+        class="text-3xl font-semibold text-text-primary-light dark:text-text-primary-dark"
+      >
+        {{ .role }}
+      </h3>
+      <div class="text-text-secondary-light dark:text-text-secondary-dark">
+        {{ .company }}
+      </div>
+      <div class="text-text-secondary-light dark:text-text-secondary-dark">
+        {{ .period }}
+      </div>
+    </div>
     {{ end }} {{ end }}
   </div>
 </div>
