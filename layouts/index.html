@@ -100,8 +100,14 @@
     {{ end }}
 
     <!-- Experience Section -->
-    {{ $experienceData := index site.Data .Language.Lang "experience" }}
-    {{ $experience := cond (and $experienceData $experienceData.experience) $experienceData.experience site.Params.experience }}
+      {{ $experienceData := index site.Data .Language.Lang "experience" }}
+    {{ if and $experienceData (gt (len $experienceData) 0) }}
+        {{ range $experienceData }}
+            ...
+        {{ end }}
+    {{ else }}
+        {{ warnf "No experience data found for language %q." .Language.Lang }}
+    {{ end }}
 
     {{ with $experience }}
     <section>
