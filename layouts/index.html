@@ -5,8 +5,13 @@
 </head>
 <div class="w-full md:w-4/5 lg:w-3/5 mx-auto px-14 py-12">
     <!-- Hero Section -->
-    {{ $authorData := index site.Data .Language.Lang "author" }}
-    {{ $author := cond (and $authorData $authorData.author) $authorData.author site.Params }}
+   {{ $authorData := index site.Data .Language.Lang "author" }}
+{{ with $authorData.author }}
+    {{ $author := . }}
+{{ else }}
+    {{ $author := site.Params }}
+{{ end }}
+
     
     {{ with $author }}
     <section class="mb-16">
