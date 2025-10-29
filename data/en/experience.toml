@@ -22,6 +22,7 @@
 [[experience]]
   role = "Sales Consultant (B2B)"
   company = "PremieRpet"
+  company_link = "https://premierpet.com.br/"
   period = "September 2023 - January 2025"
   country = "Brazil"
   responsibilities = [
@@ -34,6 +35,7 @@
 [[experience]]
   role = "Rental Assistant"
   company = "Movida Car Rental"
+  company_link = "https://www.movida.com.br/"
   period = "January 2022 - September 2023"
   country = "Brazil"
   responsibilities = [
@@ -46,6 +48,7 @@
 [[experience]]
   role = "Sales Associate"
   company = "Mercadão Pet"
+  company_link = "https://www.linkedin.com/in/felipesiper/"
   period = "January 2019 - April 2022"
   country = "Brazil"
   responsibilities = [
