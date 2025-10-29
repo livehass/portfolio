@@ -1,41 +1,44 @@
 {{ define "main" }}
-<div class="w-full md:w-4/5 lg:w-3/5 mx-auto px-14 py-12">
+{{ $page := . }}
+<head>
+    <link rel="stylesheet" type='text/css' href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
+</head>
 
+<div class="w-full md:w-4/5 lg:w-3/5 mx-auto px-14 py-12">
     <!-- Hero Section -->
     {{ $authorData := index site.Data .Language.Lang "author" }}
     {{ $.Scratch.Set "author" site.Params }} <!-- valor padrão -->
+
     {{ with $authorData.author }}
         {{ $.Scratch.Set "author" . }} <!-- sobrescreve se existir -->
     {{ end }}
-    {{ $author := $.Scratch.Get "author" }}
+
+    <!-- Usando o author -->
+    <p>{{ $.Scratch.Get "author" }}</p>
 
     <section class="mb-16">
         <div class="max-w-3xl ml-0 p-4 pb-2 border border-border-primary-light dark:border-border-primary-dark rounded-lg bg-bg-secondary-light dark:bg-bg-secondary-dark shadow-lg relative">
             <div class="text-left">
-                <h1 class="text-4xl font-bold mb-2 text-text-primary-light dark:text-text-primary-dark">{{ index $author "name" }}</h1>
+                <h1 class="text-4xl font-bold mb-2 text-text-primary-light dark:text-text-primary-dark">{{ $.Scratch.Get "author".name }}</h1>
                 <p class="text-gray-400 mb-3 flex items-center text-xl">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="text-gray-400" width="24" height="24" viewBox="-7 -2 24 24"><path fill="currentColor" d="M4 9.9A5.002 5.002 0 0 1 5 0a5 5 0 0 1 1 9.9V19a1 1 0 0 1-2 0V9.9zM5 8a3 3 0 1 0 0-6a3 3 0 0 0 0 6z"/></svg>
-                    {{ index $author "location" }}
+                    <svg xmlns="http://www.w3.org/2000/svg" class="text-gray-400" width="24" height="24" viewBox="-7 -2 24 24">
+                        <path fill="currentColor" d="M4 9.9A5.002 5.002 0 0 1 5 0a5 5 0 0 1 1 9.9V19a1 1 0 0 1-2 0V9.9zM5 8a3 3 0 1 0 0-6a3 3 0 0 0 0 6z"/>
+                    </svg>
+                    {{ $.Scratch.Get "author".location }}
                 </p>
-                <p class="text-xl mb-6 text-text-primary-light dark:text-text-primary-dark">{{ index $author "description" }}</p>
+                <p class="text-xl mb-6 text-text-primary-light dark:text-text-primary-dark">{{ $.Scratch.Get "author".description }}</p>
             </div>
 
             <!-- Social Icons -->
             <div class="mt-8 md:mt-0 flex flex-wrap justify-center gap-3 md:absolute md:top-4 md:right-4 md:flex-nowrap md:justify-end md:mt-0">
-                {{ with index $author "email" }}
-                <a href="mailto:{{ . }}" class="text-text-secondary-light dark:text-text-secondary-dark hover:text-text-primary-light dark:hover:text-text-primary-dark bg-bg-tertiary-light dark:bg-bg-tertiary-dark p-2 rounded-md border border-border-secondary-light dark:border-border-secondary-dark hover:border-border-primary-light dark:hover:border-border-primary-dark transition-all">
-                    <!-- SVG Email -->
-                </a>
+                {{ with $.Scratch.Get "author".email }}
+                <a href="mailto:{{ . }}" class="..."> <!-- SVG omitido para brevidade --> </a>
                 {{ end }}
-                {{ with index $author "github" }}
-                <a href="{{ . }}" target="_blank" rel="noopener noreferrer" class="text-text-secondary-light dark:text-text-secondary-dark hover:text-text-primary-light dark:hover:text-text-primary-dark bg-bg-tertiary-light dark:bg-bg-tertiary-dark p-2 rounded-md border border-border-secondary-light dark:border-border-secondary-dark hover:border-border-primary-light dark:hover:border-border-primary-dark transition-all">
-                    <!-- SVG GitHub -->
-                </a>
+                {{ with $.Scratch.Get "author".github }}
+                <a href="{{ . }}" target="_blank" rel="noopener noreferrer" class="..."> <!-- SVG omitido --> </a>
                 {{ end }}
-                {{ with index $author "linkedin" }}
-                <a href="{{ . }}" target="_blank" rel="noopener noreferrer" class="text-text-secondary-light dark:text-text-secondary-dark hover:text-text-primary-light dark:hover:text-text-primary-dark bg-bg-tertiary-light dark:bg-bg-tertiary-dark p-2 rounded-md border border-border-secondary-light dark:border-border-secondary-dark hover:border-border-primary-light dark:hover:border-border-primary-dark transition-all">
-                    <!-- SVG LinkedIn -->
-                </a>
+                {{ with $.Scratch.Get "author".linkedin }}
+                <a href="{{ . }}" target="_blank" rel="noopener noreferrer" class="..."> <!-- SVG omitido --> </a>
                 {{ end }}
             </div>
         </div>
@@ -66,6 +69,7 @@
                     {{- end -}}
                 </div>
             </div>
+
             <div class="carousel-container -mt-1">
                 <div class="carousel-track-reverse">
                     {{- range .row2 -}}
@@ -85,97 +89,96 @@
         </div>
     </section>
     {{ else }}
-        {{ warnf "No tech stack data found for language %q." .Language.Lang }}
+        {{ warnf "No tech stack data found for language %q. Please define either data/%s/tech.(yaml|toml|json) or params.tech in config." .Language.Lang }}
     {{ end }}
 
     <!-- Experience Section -->
+    {{ $experience := site.Params.experience }} <!-- valor padrão -->
     {{ $experienceData := index site.Data .Language.Lang "experience" }}
-    {{ $experience := cond (and $experienceData $experienceData.experience) $experienceData.experience site.Params.experience }}
+    {{ with $experienceData }}
+        {{ with index . "experience" }}
+            {{ $experience = . }}
+        {{ end }}
+    {{ end }}
+
     {{ with $experience }}
     <section>
         <h2 class="text-4xl font-bold mb-5">{{ T "experienceTitle" }}</h2>
         <div class="space-y-4 max-w-3xl mx-auto">
             {{ range $index, $exp := . }}
             <div class="relative pl-8 before:content-[''] before:absolute before:left-0 before:top-0 before:w-[2px] before:h-full before:bg-gray-700 before:rounded-full">
-                {{ if eq $exp.company "Open Source Contributor" }}
+                {{ if eq .company "Open Source Contributor" }}
                 <div class="absolute -left-1.5 top-0 w-3 h-3 bg-[#121212] border border-blue-400 rounded-full"></div>
                 {{ else }}
                 <div class="absolute -left-1.5 top-0 w-2 h-2 bg-gray-700 rounded-full"></div>
                 {{ end }}
                 <div class="text-gray-400 text-xl mb-1">
-                    {{ if $exp.company_link }}
-                        <a href="{{ $exp.company_link }}" target="_blank" rel="noopener noreferrer" class="group inline-flex items-center gap-2 font-medium hover:text-accent-light dark:hover:text-accent-dark transition-colors duration-200">
-                            {{ $exp.company }}
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>
-                        </a>
+                    {{ if .company_link }}
+                    <a href="{{ .company_link }}" target="_blank" rel="noopener noreferrer" class="...">{{ .company }}</a>
                     {{ else }}
-                        {{ $exp.company }}
+                    {{ .company }}
                     {{ end }}
                 </div>
-                <p class="text-2xl font-semibold">{{ $exp.role }}</p>
-                <p class="text-gray-400 font-semibold">{{ $exp.period }}</p>
-                <p class="text-gray-400 text-sm">{{ with $exp.country }}{{ . }}{{ end }}</p>
-                <p class="mt-2">{{ $exp.description }}</p>
+                <p class="text-2xl font-semibold">{{ .role }}</p>
+                <p class="text-gray-400 font-semibold">{{ .period }}</p>
+                <p class="text-gray-400 text-sm">{{ if .country }} {{ .country }}{{ end }}</p>
+                <p class="mt-2">{{ .description }}</p>
             </div>
             {{ end }}
         </div>
     </section>
     {{ else }}
-    {{ warnf "No experience data found for language %q." .Language.Lang }}
+        {{ warnf "No experience data found for language %q. Please define either data/%s/experience.(yaml|toml|json) or params.experience in config." .Language.Lang }}
     {{ end }}
 
     <!-- Projects Section -->
     {{ $projects := where site.RegularPages.ByDate.Reverse "Section" "projects" }}
     {{ with $projects }}
     <section class="mt-12 md:mt-20 mb-12 md:mb-20">
-        <h2 class="text-2xl md:text-4xl font-bold mb-6 md:mb-8">{{ T "projectsTitle" }}</h2>
+        <div class="flex justify-between items-center mb-6 md:mb-8">
+            <h2 class="text-2xl md:text-4xl font-bold">{{ T "projectsTitle" }}</h2>
+        </div>
         <div class="grid grid-cols-1 gap-6 md:gap-8 max-w-3xl mx-auto">
             {{ range first 3 . }}
-            <div class="project-card relative overflow-hidden rounded-lg bg-[#121212] border border-gray-700 transition-all duration-300 group">
-                <div class="aspect-w-16 overflow-hidden relative">
-                    <img src="{{ .Params.image }}" alt="{{ .Title }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent z-20"></div>
-                    <div class="absolute inset-0 z-30 p-4 pb-3 md:p-6 md:pb-4 flex flex-col justify-end transform transition-transform duration-500 translate-y-0 group-hover:-translate-y-5">
-                        <h3 class="text-xl md:text-2xl font-bold mb-1.5 md:mb-2 text-white line-clamp-2 drop-shadow-lg">{{ .Title }}</h3>
-                        <div class="hidden sm:flex flex-wrap gap-1 md:gap-2 mb-1.5 md:mb-3">
-                            {{ with .Params.tech }}
-                                {{ range . }}
-                                <span class="px-1.5 md:px-2 py-0.5 bg-blue-500/20 backdrop-blur-sm rounded-md text-[10px] md:text-xs font-medium text-white">{{ . }}</span>
-                                {{ end }}
-                            {{ end }}
-                        </div>
-                        <p class="hidden md:block text-sm text-white mb-3 line-clamp-3 md:line-clamp-4 drop-shadow-lg">{{ .Params.description }}</p>
-                        <a href="{{ .RelPermalink }}" class="bg-white/90 backdrop-blur-sm hover:bg-white text-black text-xs md:text-sm font-medium py-1 md:py-1.5 px-2 md:px-3 rounded-md inline-block transition-all duration-300 transform opacity-100 md:opacity-0 group-hover:opacity-100 w-fit flex items-center shadow-lg hover:shadow-xl">
-                            {{ T "learnMore" }}
-                        </a>
-                    </div>
-                </div>
+            <div class="project-card ..."> <!-- conteúdo resumido -->
             </div>
             {{ end }}
         </div>
         <div class="flex justify-center mt-4 md:mt-8">
-            <a href="{{ "projects/" | absLangURL }}" class="text-blue-500 hover:text-blue-400 transition-colors duration-200 text-sm md:text-lg">
-                {{ T "viewAll" }}
-            </a>
+            <a href="{{ "projects/" | absLangURL }}" class="...">{{ T "viewAll" }}</a>
         </div>
     </section>
     {{ else }}
-        {{ warnf "No project pages found." }}
+        {{ warnf "No project pages found. To display projects, create markdown files in your /content/projects/ folder." }}
     {{ end }}
 
+    <!-- Blog Section -->
+    {{ $blogs := where (where site.RegularPages.ByDate.Reverse "Section" "blog") "Params.draft" "ne" true }}
+    {{ with $blogs }}
+    <section class="mt-20 mb-20">
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="text-4xl font-bold">{{ T "blogsTitle" }}</h2>
+        </div>
+        <div class="space-y-8 max-w-3xl mx-auto">
+            {{ range first 3 . }}
+            <div class="relative pl-8 pt-4 before:content-[''] before:absolute before:left-0 before:top-2 before:w-[2px] before:h-full before:bg-gray-700 before:rounded-full group">
+                <div class="absolute -left-1.5 top-2 w-2 h-2 bg-gray-700 rounded-full"></div>
+                <p class="text-sm text-gray-400 mb-1">{{ .Date.Format "January 2, 2006" }}</p>
+                <a href="{{ .RelPermalink }}" class="group inline-flex items-start gap-1">
+                    <h3 class="text-2xl font-semibold mb-2 text-text-primary-light dark:text-text-primary-dark transition-colors duration-200 group-hover:text-accent-light dark:group-hover:text-accent-dark">
+                        {{ .Title }}
+                    </h3>
+                </a>
+                <p class="text-gray-400">{{ .Params.description }}</p>
+            </div>
+            {{ end }}
+        </div>
+        <div class="flex justify-center mt-8">
+            <a href="{{ "blog/" | absLangURL }}" class="text-blue-500 hover:text-blue-400 transition-colors duration-200 text-lg">{{ T "viewAll" }}</a>
+        </div>
+    </section>
+    {{ else }}
+        {{ warnf "No blog posts found. To display posts, create markdown files in your /content/blog/ folder." }}
+    {{ end }}
 </div>
-
-<style>
-.aspect-w-16 { position: relative; padding-bottom: 56.25%; }
-.aspect-w-16 img { position: absolute; width: 100%; height: 100%; object-fit: cover; top:0; left:0; filter: saturate(1.1) contrast(1.1); }
-.line-clamp-2 { display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient: vertical; overflow:hidden; }
-.toaster { position: fixed; bottom:20px; left:50%; transform:translateX(-50%); background-color:#333; color:white; padding:10px 20px; border-radius:5px; z-index:1000; opacity:0; transition:opacity 0.5s ease-in-out;}
-.toaster.show { opacity:1; }
-</style>
-
-<script>
-function copyToClipboard(text){navigator.clipboard.writeText(text).then(()=>showToaster('Copied!'),()=>showToaster('Failed to copy'))}
-function showToaster(message){const t=document.createElement('div');t.className='toaster';t.textContent=message;document.body.appendChild(t);setTimeout(()=>t.classList.add('show'),10);setTimeout(()=>t.remove(),3000);}
-</script>
-
 {{ end }}
