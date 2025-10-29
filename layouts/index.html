@@ -7,176 +7,375 @@
 <div class="w-full md:w-4/5 lg:w-3/5 mx-auto px-14 py-12">
 
     <!-- Hero Section -->
-    {{ $authorData := index site.Data .Language.Lang "author" }}
-    {{ $author := cond (and $authorData $authorData.author) $authorData.author site.Params }}
+    {{ define "main" }}
+{{ $page := . }}
 
-    {{ with $author }}
-    <section class="mb-16">
-        <div class="max-w-3xl ml-0 p-4 pb-2 border border-border-primary-light dark:border-border-primary-dark rounded-lg bg-bg-secondary-light dark:bg-bg-secondary-dark shadow-lg relative">
-            <div class="text-left">
-                <h1 class="text-4xl font-bold mb-2 text-text-primary-light dark:text-text-primary-dark">{{ .name }}</h1>
-                <p class="text-gray-400 mb-3 flex items-center text-xl">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="text-gray-400" width="24" height="24" viewBox="-7 -2 24 24"><path fill="currentColor" d="M4 9.9A5.002 5.002 0 0 1 5 0a5 5 0 0 1 1 9.9V19a1 1 0 0 1-2 0V9.9zM5 8a3 3 0 1 0 0-6a3 3 0 0 0 0 6z"/></svg>
-                    {{ .location }}
-                </p>
-                <p class="text-xl mb-6 text-text-primary-light dark:text-text-primary-dark">{{ .description }}</p>
-            </div>
+<head>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
+</head>
 
-            <!-- Social Icons -->
-            <div class="mt-8 md:mt-0 flex flex-wrap justify-center gap-3 md:absolute md:top-4 md:right-4 md:flex-nowrap md:justify-end md:mt-0">
-                {{ with .email }}
-                <a href="mailto:{{ . }}" class="social-btn">
-                    <!-- Email SVG included above -->
-                </a>
-                {{ end }}
-                {{ with .github }}
-                <a href="{{ . }}" class="social-btn" target="_blank" rel="noopener noreferrer">
-                    <!-- GitHub SVG included above -->
-                </a>
-                {{ end }}
-                {{ with .linkedin }}
-                <a href="{{ . }}" class="social-btn" target="_blank" rel="noopener noreferrer">
-                    <!-- LinkedIn SVG included above -->
-                </a>
-                {{ end }}
-                {{ with .discord }}
-                <button onclick="copyToClipboard('{{ . }}')" class="social-btn" title="Copy Discord Username">
-                    <!-- Discord SVG included above -->
-                </button>
-                {{ end }}
-            </div>
+<div class="w-full md:w-4/5 lg:w-3/5 mx-auto px-14 py-12">
+
+  <!-- =========================
+       💫 HERO SECTION
+  ========================== -->
+  {{ $author := site.Params.author }}
+  {{ $authorData := index site.Data .Language.Lang "author" }}
+
+  {{ if and $authorData (isset $authorData "author") }}
+    {{ $author = $authorData.author }}
+  {{ end }}
+
+  {{ with $author }}
+  <section class="mb-16">
+    <div class="max-w-3xl ml-0 p-4 pb-2 border border-border-primary-light dark:border-border-primary-dark rounded-lg bg-bg-secondary-light dark:bg-bg-secondary-dark shadow-lg relative">
+      <div class="text-left">
+        <h1 class="text-4xl font-bold mb-2 text-text-primary-light dark:text-text-primary-dark">{{ .name }}</h1>
+        <p class="text-gray-400 mb-3 flex items-center text-xl">
+          <svg xmlns="http://www.w3.org/2000/svg" class="text-gray-400" width="24" height="24" viewBox="-7 -2 24 24">
+            <path fill="currentColor" d="M4 9.9A5.002 5.002 0 0 1 5 0a5 5 0 0 1 1 9.9V19a1 1 0 0 1-2 0V9.9zM5 8a3 3 0 1 0 0-6a3 3 0 0 0 0 6z"/>
+          </svg>
+          {{ .location }}
+        </p>
+        <p class="text-xl mb-6 text-text-primary-light dark:text-text-primary-dark">{{ .description }}</p>
+      </div>
+
+      <!-- Social Icons -->
+      <div class="mt-8 md:mt-0 flex flex-wrap justify-center gap-3 md:absolute md:top-4 md:right-4 md:flex-nowrap md:justify-end md:mt-0">
+        {{ with .email }}
+          <a href="mailto:{{ . }}" class="social-btn">Email SVG</a>
+        {{ end }}
+        {{ with .github }}
+          <a href="{{ . }}" target="_blank" rel="noopener noreferrer" class="social-btn">GitHub SVG</a>
+        {{ end }}
+        {{ with .linkedin }}
+          <a href="{{ . }}" target="_blank" rel="noopener noreferrer" class="social-btn">LinkedIn SVG</a>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+  {{ else }}
+    {{ warnf "⚠ Nenhum dado de autor encontrado em site.Data ou site.Params." }}
+  {{ end }}
+
+  <!-- =========================
+       ⚙️ TECH STACK SECTION
+  ========================== -->
+  {{ $tech := index site.Data .Language.Lang "tech" }}
+  {{ if not $tech }}
+    {{ $tech = site.Params.tech }}
+  {{ end }}
+
+  {{ with $tech }}
+  <section class="mb-20">
+    <h2 class="text-4xl font-bold mb-2 relative">{{ T "whatIWorkWith" }}</h2>
+    <div class="tech-carousel">
+      <div class="carousel-container">
+        <div class="carousel-track carousel-track-left-to-right">
+          {{ range .row1 }}
+            <div class="carousel-item"><i class="{{ .icon }}"></i><span>{{ .name }}</span></div>
+          {{ end }}
+          {{ range .row1 }}
+            <div class="carousel-item"><i class="{{ .icon }}"></i><span>{{ .name }}</span></div>
+          {{ end }}
         </div>
-    </section>
-    {{ else }}
-    {{ warnf "Author data not found. Please check your site configuration." }}
-    {{ end }}
-
-    <!-- Tech Stack -->
-    {{ with (index site.Data .Language.Lang "tech") }}
-    <section class="mb-20">
-        <h2 class="text-4xl font-bold mb-2 relative">{{ T "whatIWorkWith" }}</h2>
-        <div class="tech-carousel">
-            <div class="carousel-container">
-                <div class="carousel-track carousel-track-left-to-right">
-                    {{- range .row1 -}}
-                        <div class="carousel-item"><i class="{{ .icon }}"></i><span>{{ .name }}</span></div>
-                    {{- end -}}
-                    {{- range .row1 -}} <!-- duplicate for infinite scroll -->
-                        <div class="carousel-item"><i class="{{ .icon }}"></i><span>{{ .name }}</span></div>
-                    {{- end -}}
-                </div>
-            </div>
-            <div class="carousel-container -mt-1">
-                <div class="carousel-track-reverse">
-                    {{- range .row2 -}}
-                        <div class="carousel-item"><i class="{{ .icon }}"></i><span>{{ .name }}</span></div>
-                    {{- end -}}
-                    {{- range .row2 -}} <!-- duplicate for infinite scroll -->
-                        <div class="carousel-item"><i class="{{ .icon }}"></i><span>{{ .name }}</span></div>
-                    {{- end -}}
-                </div>
-            </div>
+      </div>
+      <div class="carousel-container -mt-1">
+        <div class="carousel-track-reverse">
+          {{ range .row2 }}
+            <div class="carousel-item"><i class="{{ .icon }}"></i><span>{{ .name }}</span></div>
+          {{ end }}
+          {{ range .row2 }}
+            <div class="carousel-item"><i class="{{ .icon }}"></i><span>{{ .name }}</span></div>
+          {{ end }}
         </div>
-    </section>
-    {{ else }}
-    {{ warnf "No tech stack data found for language %q." .Language.Lang }}
-    {{ end }}
+      </div>
+    </div>
+  </section>
+  {{ else }}
+    {{ warnf "⚠ Nenhum tech stack encontrado em site.Data ou site.Params." }}
+  {{ end }}
 
-    <!-- Experience Section -->
-    {{ $experienceData := index site.Data .Language.Lang "experience" }}
-    {{ $experience := cond (and $experienceData $experienceData.experience) $experienceData.experience site.Params.experience }}
-    {{ with $experience }}
-    <section>
-        <h2 class="text-4xl font-bold mb-5">{{ T "experienceTitle" }}</h2>
-        <div class="space-y-4 max-w-3xl mx-auto">
-            {{ range $index, $exp := . }}
-            <div class="relative pl-8 before:content-[''] before:absolute before:left-0 before:top-0 before:w-[2px] before:h-full before:bg-gray-700 before:rounded-full">
-                <div class="absolute -left-1.5 top-0 w-2 h-2 bg-gray-700 rounded-full"></div>
-                <div class="text-gray-400 text-xl mb-1">
-                    {{ if .company_link }}
-                    <a href="{{ .company_link }}" target="_blank" rel="noopener noreferrer">{{ .company }}</a>
-                    {{ else }}
-                    {{ .company }}
-                    {{ end }}
-                </div>
-                <p class="text-2xl font-semibold">{{ .role }}</p>
-                <p class="text-gray-400 font-semibold">{{ .period }}</p>
-                <p class="text-gray-400 text-sm">{{ if .country }} {{ .country }}{{ end }}</p>
-                <p class="mt-2">{{ .description }}</p>
+  <!-- =========================
+       🧠 EXPERIENCE SECTION
+  ========================== -->
+  {{ $experience := site.Params.experience }}
+  {{ $experienceData := index site.Data .Language.Lang "experience" }}
+
+  {{ if and $experienceData (isset $experienceData "experience") }}
+    {{ $experience = $experienceData.experience }}
+  {{ end }}
+
+  {{ with $experience }}
+  <section>
+    <h2 class="text-4xl font-bold mb-5">{{ T "experienceTitle" }}</h2>
+    <div class="space-y-4 max-w-3xl mx-auto">
+      {{ range $index, $exp := . }}
+      <div class="relative pl-8 before:content-[''] before:absolute before:left-0 before:top-0 before:w-[2px] before:h-full before:bg-gray-700 before:rounded-full">
+        <p class="text-gray-400 text-xl mb-1">
+          {{ if $exp.company_link }}
+            <a href="{{ $exp.company_link }}" target="_blank" class="hover:text-accent-light">{{ $exp.company }}</a>
+          {{ else }}
+            {{ $exp.company }}
+          {{ end }}
+        </p>
+        <p class="text-2xl font-semibold">{{ $exp.role }}</p>
+        <p class="text-gray-400 font-semibold">{{ $exp.period }}</p>
+        <p class="text-gray-400 text-sm">{{ $exp.country }}</p>
+        <p class="mt-2">{{ $exp.description }}</p>
+      </div>
+      {{ end }}
+    </div>
+  </section>
+  {{ else }}
+    {{ warnf "⚠ Nenhuma experiência encontrada em site.Data ou site.Params." }}
+  {{ end }}
+
+  <!-- =========================
+       🚀 PROJECTS SECTION
+  ========================== -->
+  {{ $projects := where site.RegularPages.ByDate.Reverse "Section" "projects" }}
+  {{ with $projects }}
+  <section class="mt-12 md:mt-20 mb-12 md:mb-20">
+    <h2 class="text-2xl md:text-4xl font-bold mb-6 md:mb-8">{{ T "projectsTitle" }}</h2>
+    <div class="grid grid-cols-1 gap-6 md:gap-8 max-w-3xl mx-auto">
+      {{ range first 3 . }}
+      <div class="project-card relative overflow-hidden rounded-lg bg-[#121212] border border-gray-700 transition-all duration-300 group">
+        <div class="aspect-w-16 aspect-h-9 overflow-hidden relative">
+          <img src="{{ .Params.image }}" alt="{{ .Title }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+          <div class="absolute inset-0 z-30 p-4 pb-3 md:p-6 md:pb-4 flex flex-col justify-end">
+            <h3 class="text-xl md:text-2xl font-bold mb-2 text-white">{{ .Title }}</h3>
+            {{ with .Params.tech }}
+            <div class="flex flex-wrap gap-2">
+              {{ range . }}<span class="px-2 py-0.5 bg-blue-500/20 rounded-md text-white text-xs">{{ . }}</span>{{ end }}
             </div>
             {{ end }}
+            <p class="text-sm text-white mt-2 line-clamp-3">{{ .Params.description }}</p>
+            <a href="{{ .RelPermalink }}" class="bg-white/90 text-black px-3 py-1 rounded-md mt-2 inline-block">{{ T "learnMore" }}</a>
+          </div>
         </div>
-    </section>
-    {{ else }}
-    {{ warnf "No experience data found." }}
-    {{ end }}
+      </div>
+      {{ end }}
+    </div>
+    <div class="flex justify-center mt-4 md:mt-8">
+      <a href="{{ "projects/" | absLangURL }}" class="text-blue-500 hover:text-blue-400 text-lg">{{ T "viewAll" }}</a>
+    </div>
+  </section>
+  {{ else }}
+    {{ warnf "⚠ Nenhum projeto encontrado." }}
+  {{ end }}
 
-    <!-- Projects Section -->
-    {{ $projects := where site.RegularPages.ByDate.Reverse "Section" "projects" }}
-    {{ with $projects }}
-    <section class="mt-12 md:mt-20 mb-12 md:mb-20">
-        <h2 class="text-2xl md:text-4xl font-bold mb-6 md:mb-8">{{ T "projectsTitle" }}</h2>
-        <div class="grid grid-cols-1 gap-6 md:gap-8 max-w-3xl mx-auto">
-            {{ range first 3 . }}
-            <div class="project-card relative overflow-hidden rounded-lg bg-[#121212] border border-gray-700 transition-all duration-300 group">
-                <div class="aspect-w-16 relative overflow-hidden">
-                    <img src="{{ .Params.image }}" alt="{{ .Title }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                    <div class="absolute inset-0 z-30 p-4 flex flex-col justify-end">
-                        <h3 class="text-xl md:text-2xl font-bold mb-2 text-white">{{ .Title }}</h3>
-                        {{ with .Params.tech }}
-                        <div class="flex flex-wrap gap-2 mb-2">
-                            {{ range . }}<span class="px-2 py-0.5 bg-blue-500/20 rounded-md text-white text-xs">{{ . }}</span>{{ end }}
-                        </div>
-                        {{ end }}
-                        <p class="text-sm text-white line-clamp-3">{{ .Params.description }}</p>
-                        <a href="{{ .RelPermalink }}" class="bg-white/90 text-black px-3 py-1 rounded-md mt-2 inline-block">{{ T "learnMore" }}</a>
-                    </div>
-                </div>
-            </div>
-            {{ end }}
-        </div>
-        <div class="flex justify-center mt-4 md:mt-8">
-            <a href="{{ "projects/" | absLangURL }}" class="text-blue-500 hover:text-blue-400 text-lg">{{ T "viewAll" }}</a>
-        </div>
-    </section>
-    {{ else }}
-    {{ warnf "No project pages found." }}
-    {{ end }}
+  <!-- =========================
+       ✍️ BLOG SECTION
+  ========================== -->
+  {{ $blogs := where (where site.RegularPages.ByDate.Reverse "Section" "blog") "Params.draft" "ne" true }}
+  {{ with $blogs }}
+  <section class="mt-20 mb-20">
+    <h2 class="text-4xl font-bold mb-8">{{ T "blogsTitle" }}</h2>
+    <div class="space-y-8 max-w-3xl mx-auto">
+      {{ range first 3 . }}
+      <div class="relative pl-8 pt-4 before:content-[''] before:absolute before:left-0 before:top-2 before:w-[2px] before:h-full before:bg-gray-700 before:rounded-full">
+        <p class="text-sm text-gray-400 mb-1">{{ .Date.Format "January 2, 2006" }}</p>
+        <a href="{{ .RelPermalink }}" class="group inline-flex items-start gap-1">
+          <h3 class="text-2xl font-semibold text-text-primary-light dark:text-text-primary-dark">{{ .Title }}</h3>
+        </a>
+        <p class="text-gray-400">{{ .Params.description }}</p>
+      </div>
+      {{ end }}
+    </div>
+    <div class="flex justify-center mt-8">
+      <a href="{{ "blog/" | absLangURL }}" class="text-blue-500 hover:text-blue-400 text-lg">{{ T "viewAll" }}</a>
+    </div>
+  </section>
+  {{ else }}
+    {{ warnf "⚠ Nenhum post de blog encontrado." }}
+  {{ end }}
 
-    <!-- Blog Section -->
-    {{ $blogs := where (where site.RegularPages.ByDate.Reverse "Section" "blog") "Params.draft" "ne" true }}
-    {{ with $blogs }}
-    <section class="mt-20 mb-20">
-        <h2 class="text-4xl font-bold mb-8">{{ T "blogsTitle" }}</h2>
-        <div class="space-y-8 max-w-3xl mx-auto">
-            {{ range first 3 . }}
-            <div class="relative pl-8 pt-4 before:content-[''] before:absolute before:left-0 before:top-2 before:w-[2px] before:h-full before:bg-gray-700 before:rounded-full">
-                <div class="absolute -left-1.5 top-2 w-2 h-2 bg-gray-700 rounded-full"></div>
-                <p class="text-sm text-gray-400 mb-1">{{ .Date.Format "January 2, 2006" }}</p>
-                <a href="{{ .RelPermalink }}" class="group inline-flex items-start gap-1">
-                    <h3 class="text-2xl font-semibold text-text-primary-light dark:text-text-primary-dark">{{ .Title }}</h3>
-                </a>
-                <p class="text-gray-400">{{ .Params.description }}</p>
-            </div>
-            {{ end }}
-        </div>
-        <div class="flex justify-center mt-8">
-            <a href="{{ "blog/" | absLangURL }}" class="text-blue-500 hover:text-blue-400 text-lg">{{ T "viewAll" }}</a>
-        </div>
-    </section>
-    {{ else }}
-    {{ warnf "No blog posts found." }}
-    {{ end }}
+</div>
+{{ end }}
+
 
 </div>
 
 <style>
-/* Add all carousel, project, toaster, and responsive CSS from your previous code here */
+.tech-carousel {
+    width: 100%;
+    overflow: hidden;
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.carousel-container {
+    width: 100%;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+}
+
+.carousel-track, .carousel-track-reverse {
+    display: flex;
+    width: fit-content;
+}
+
+.carousel-track {
+    animation: scroll 45s linear infinite;
+}
+
+.carousel-track-left-to-right {
+    animation: scroll-left-to-right 60s linear infinite;
+}
+
+.carousel-track-reverse {
+    animation: scroll-reverse 45s linear infinite;
+}
+
+.carousel-item {
+    display: flex;
+    align-items: center;
+    width: auto;
+    padding: 0.75rem 0.5rem;
+    margin: 0 0.1rem;
+    border-radius: 0.5rem;
+    white-space: nowrap;
+    gap: 0.5rem;
+}
+
+.carousel-item i {
+    font-size: 2.25rem;
+}
+
+.carousel-item span {
+    font-size: 1.25rem;
+    font-weight: 500;
+}
+
+.carousel-container:hover .carousel-track,
+.carousel-container:hover .carousel-track-reverse,
+.carousel-container:hover .carousel-track-left-to-right {
+    animation-play-state: paused;
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(calc(-100% / 2));
+    }
+}
+
+@keyframes scroll-left-to-right {
+    0% {
+        transform: translateX(calc(-100% / 2));
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes scroll-reverse {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(calc(-100% / 2));
+    }
+}
+
+.max-w-3xl {
+    border-color: rgba(75, 85, 99, 0.7); 
+}
+
+@media (max-width: 767px) {
+    .project-card {
+        margin: 0 1rem; 
+    }
+    .aspect-w-16 {
+        padding-bottom: 75%; 
+    }
+}
+
+@media (min-width: 768px) {
+    .project-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+        border-color: rgba(59, 130, 246, 0.5);
+    }
+}
+.aspect-w-16 {
+    position: relative;
+    padding-bottom: 56.25%;
+}
+
+.aspect-w-16 > img {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    object-fit: cover;
+    filter: saturate(1.1) contrast(1.1);
+}
+
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Toaster styles */
+.toaster {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--toaster-bg, #333); 
+    color: var(--toaster-text, white);
+    padding: 10px 20px;
+    border-radius: 5px;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out, background-color 0.3s ease, color 0.3s ease;
+}
+
+html.dark .toaster {
+    --toaster-bg: #e5e7eb;
+    --toaster-text: #1f2937;
+}
+
+.toaster.show {
+    opacity: 1;
+}
 </style>
 
 <script>
-function copyToClipboard(text) { /* toaster script */ }
-function showToaster(message) { /* toaster script */ }
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(function() {
+        showToaster('Discord username copied to clipboard!');
+    }, function(err) {
+        showToaster('Failed to copy username.');
+        console.error('Could not copy text: ', err);
+    });
+}
+
+function showToaster(message) {
+    const toaster = document.createElement('div');
+    toaster.className = 'toaster';
+    toaster.textContent = message;
+    document.body.appendChild(toaster);
+    setTimeout(() => {
+        toaster.classList.add('show');
+    }, 10); 
+    setTimeout(() => {
+        toaster.classList.remove('show');
+        setTimeout(() => {
+            document.body.removeChild(toaster);
+        }, 500); 
+    }, 3000); 
+}
 </script>
 
 {{ end }}
