@@ -3,6 +3,6 @@
   "buildCommand": "git submodule update --init --recursive && hugo",
   "outputDirectory": "public",
   "env": {
-    "HUGO_VERSION": "0.110.0"
+    "HUGO_VERSION": "0.147.2"
   }
 }
