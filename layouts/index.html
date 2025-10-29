@@ -5,9 +5,13 @@
 </head>
 <div class="w-full md:w-4/5 lg:w-3/5 mx-auto px-14 py-12">
     <!-- Hero Section -->
-    {{ $authorData := index site.Data .Language.Lang "author" }}
-    {{ $author := cond (and $authorData $authorData.author) $authorData.author site.Params }}
-    
+        {{ $author := site.Params }}
+            {{ if and (isset site.Data .Language.Lang) (isset (index site.Data .Language.Lang) "author") }}
+                {{ $authorData := index site.Data .Language.Lang }}
+                {{ if isset $authorData "author" }}
+                    {{ $author = $authorData.author }}
+            {{ end }}
+        {{ end }}
     {{ with $author }}
     <section class="mb-16">
         <div class="max-w-3xl ml-0 p-4 pb-2 border border-border-primary-light dark:border-border-primary-dark rounded-lg bg-bg-secondary-light dark:bg-bg-secondary-dark shadow-lg relative">
