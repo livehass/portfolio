@@ -50,8 +50,13 @@
     <div class="max-w-6xl mx-auto px-4">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div class="flex justify-between items-center">
-                {{ $authorData := index site.Data .Language.Lang "author" }}
-                {{ $author := cond (and $authorData $authorData.author) $authorData.author site.Params }}
+                {{ $author := site.Params }}
+                    {{ if and (isset site.Data .Language.Lang) (isset (index site.Data .Language.Lang) "author") }}
+                    {{ $authorData := index site.Data .Language.Lang }}
+                    {{ if isset $authorData "author" }}
+                        {{ $author = $authorData.author }}
+                    {{ end }}
+                {{ end }}
                 {{ with $author }}
                 <a href="{{ absLangURL .Site.BaseURL }}" class="text-xl font-bold text-text-primary-light dark:text-text-primary-dark hover:text-accent-light dark:hover:text-accent-dark transition-colors duration-300">
                     {{ .name }}
