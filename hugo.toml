@@ -1,6 +1,7 @@
 baseURL = "https://jorgefelipe.info/"
 languageCode = 'en-us'
 title = 'Jorge Felipe'
+author = "true"
 theme = 'hugo-noir'
 defaultContentLanguage = "en"
 defaultContentLanguageInSubdir = false
