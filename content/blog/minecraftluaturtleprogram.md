@@ -327,13 +327,18 @@ local function exchangeItems()
                         if count - d <= 0 then inventory[item][slot] = nil
                         else inventory[item][slot] = count - d end
                     end
-                    if not next(inventory[item]) then inventory[item] = nil end
-                elseif fuel and fuel.count < fuel.limit and item == fuel.name then
-                    local d = chest.pushItems(name, i, fuel.limit - fuel.count, fuel.slot)
-                    fuel.count = fuel.count + d
-                elseif seed and seed.count < seed.limit and item == seed.name then
-                    local d = chest.pushItems(name, i, seed.limit - seed.count, seed.slot)
-                    seed.count = seed.count + d
+                    if not next(inventory[item])
+                    then inventory[item] = nil end
+                elseif fuel and fuel.count < fuel.limit and item == fuel.name
+                then
+                local d =
+                 chest.pushItems(name, i, fuel.limit - fuel.count, fuel.slot)
+                fuel.count = fuel.count + d
+                elseif seed and seed.count < seed.limit and item == seed.name
+                then
+                local d =
+                 chest.pushItems(name, i, seed.limit - seed.count, seed.slot)
+                seed.count = seed.count + d
                 end
             end
             if not next(inventory) then break end
@@ -363,28 +368,40 @@ local function exchangeItems()
         for _, chest in ipairs{peripheral.find("minecraft:chest")} do
             local items = chest.list()
             for i = 1, chest.size() do
-                if items[i] and ((fuel and items[i].name == fuel.name and fuel.count < fuel.limit) or
+                if items[i]
+                 and ((fuel and items[i].name == fuel.name and fuel.count < fuel.limit) or
                 (not fuel and fuels[items[i].name])) then
-                    local d = chest.pushItems(name, i, fuel and fuel.count - fuel.limit, 16)
+                    local d =
+                     chest.pushItems(name, i, fuel and fuel.count - fuel.limit, 16)
                     if fuel then fuel.count = fuel.count + d
-                    else fuel = {name = items[i].name, count = d, limit = turtle.getItemSpace(16)} end
+                    else fuel
+                     = {name = items[i].name, count =
+                      d, limit = turtle.getItemSpace(16)} end
                 end
-                if items[i] and ((seed and items[i].name == seed.name and seed.count < seed.limit) or
+                if items[i]
+                 and ((seed and items[i].name == seed.name
+                  and seed.count < seed.limit) or
                 (not seed and seedItems[items[i].name])) then
-                    local d = chest.pushItems(name, i, seed and seed.count - seed.limit, 1)
+                    local d = chest.pushItems(name, i, seed
+                     and seed.count - seed.limit, 1)
                     if seed then seed.count = seed.count + d
-                    else seed = {name = items[i].name, count = d, limit = turtle.getItemSpace(1)} end
+                    else seed = {name = items[i].name, count = d,
+                     limit = turtle.getItemSpace(1)} end
                 end
-                if (fuel and fuel.count >= fuel.limit) and (seed and seed.count >= seed.limit) then break end
+                if (fuel and fuel.count >= fuel.limit)
+                 and (seed and seed.count >= seed.limit) then break end
             end
-            if (fuel and fuel.count >= fuel.limit) and (seed and seed.count >= seed.limit) then break end
+            if (fuel and fuel.count >= fuel.limit)
+             and (seed and seed.count >= seed.limit) then break end
         end
     end
 end
 
 if fs.exists("jackmacwindows.farm-state.txt") then
     local file = fs.open("jackmacwindows.farm-state.txt", "r")
-    x, y, z, direction = tonumber(file.readLine()), tonumber(file.readLine()), tonumber(file.readLine()),
+    x, y, z, direction =
+     tonumber(file.readLine()), tonumber(file.readLine()),
+      tonumber(file.readLine()),
     tonumber(file.readLine())
     invertDirection = file.readLine() == "true"
     file.close()
@@ -423,11 +440,13 @@ if fs.exists("jackmacwindows.farm-state.txt") then
             exchangeItems()
         end
     end
-elseif not peripheral.find("minecraft:chest") or not peripheral.find("modem", function(_, m)
+elseif not peripheral.find("minecraft:chest")
+or not peripheral.find("modem", function(_, m)
 return not m.isWireless() end) then
     print[[
 Please move the turtle to the starting position next to a modem with a chest.
-The expected setup is the turtle next to a wired modem block, with a chest next to that modem block.
+The expected setup is the turtle next to
+ a wired modem block, with a chest next to that modem block.
 This program cannot run until placed correctly.
 ]]
     return
