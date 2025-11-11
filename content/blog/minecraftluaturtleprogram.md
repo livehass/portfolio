@@ -48,9 +48,6 @@ Save the following script as `farm.lua` inside your Turtle.
 Then, simply run it in ComputerCraft by typing:
 
 ```Lua
--- Turtle farm by JackMacWindows
--- Adapted for learning and demonstration
--- Simplified version with comments
 
 local x, y, z = 0, 0, 0
 local direction = 0
