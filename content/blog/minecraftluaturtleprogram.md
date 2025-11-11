@@ -107,7 +107,8 @@ local function writePos()
 end
 
 local function refuel()
-    if turtle.getFuelLevel() == "unlimited" or turtle.getFuelLevel() == turtle.getFuelLimit() then return end
+    if turtle.getFuelLevel() == "unlimited" or turtle.getFuelLevel() ==
+    turtle.getFuelLimit() then return end
     for i = 1, 16 do
         if turtle.getItemCount(i) > 0 then
             turtle.select(i)
@@ -199,7 +200,10 @@ local function panic(msg)
     term.clear()
     term.setCursorPos(1, 1)
     term.setTextColor(colors.red)
-    print("An unrecoverable error occured while farming:", msg, "\nPlease hold Ctrl+T to stop the program, then solve the issue described above, run 'rm jackmacwindows.farm-state.txt', and return the turtle to the start position. Don't forget to label the turtle before breaking it.")
+    print("An unrecoverable error occured while farming:", msg,
+    "\nPlease hold Ctrl+T to stop the program, then solve the issue described above, run
+    'rm jackmacwindows.farm-state.txt', and return the turtle to the start position.
+    Don't forget to label the turtle before breaking it.")
     if peripheral.find("modem") then
         peripheral.find("modem", rednet.open)
         rednet.broadcast(msg, "jackmacwindows.farming-error")
@@ -278,7 +282,8 @@ local function handleCrop()
         turtle.select(1)
         turtle.digDown()
         turtle.suckDown()
-        if turtle.getItemDetail().name ~= seed and not selectItem(seed) then return end
+        if turtle.getItemDetail().name ~= seed and not selectItem(seed)
+        then return end
         turtle.placeDown()
     end
 end
@@ -290,12 +295,14 @@ local function exchangeItems()
         local item = turtle.getItemDetail(i)
         if item then
             if not seed and seedItems[item.name] then
-                seed = {slot = i, name = item.name, count = item.count, limit = turtle.getItemSpace(i)}
+                seed = {slot = i, name = item.name, count = item.count, limit =
+                turtle.getItemSpace(i)}
             elseif not turtle.refuel(0) then
                 inventory[item.name] = inventory[item.name] or {}
                 inventory[item.name][i] = item.count
             elseif not fuel then
-                fuel = {slot = i, name = item.name, count = item.count, limit = turtle.getItemSpace(i)}
+                fuel = {slot = i, name = item.name, count = item.count, limit =
+                turtle.getItemSpace(i)}
             end
         end
     end
@@ -356,12 +363,14 @@ local function exchangeItems()
         for _, chest in ipairs{peripheral.find("minecraft:chest")} do
             local items = chest.list()
             for i = 1, chest.size() do
-                if items[i] and ((fuel and items[i].name == fuel.name and fuel.count < fuel.limit) or (not fuel and fuels[items[i].name])) then
+                if items[i] and ((fuel and items[i].name == fuel.name and fuel.count < fuel.limit) or
+                (not fuel and fuels[items[i].name])) then
                     local d = chest.pushItems(name, i, fuel and fuel.count - fuel.limit, 16)
                     if fuel then fuel.count = fuel.count + d
                     else fuel = {name = items[i].name, count = d, limit = turtle.getItemSpace(16)} end
                 end
-                if items[i] and ((seed and items[i].name == seed.name and seed.count < seed.limit) or (not seed and seedItems[items[i].name])) then
+                if items[i] and ((seed and items[i].name == seed.name and seed.count < seed.limit) or
+                (not seed and seedItems[items[i].name])) then
                     local d = chest.pushItems(name, i, seed and seed.count - seed.limit, 1)
                     if seed then seed.count = seed.count + d
                     else seed = {name = items[i].name, count = d, limit = turtle.getItemSpace(1)} end
@@ -375,7 +384,8 @@ end
 
 if fs.exists("jackmacwindows.farm-state.txt") then
     local file = fs.open("jackmacwindows.farm-state.txt", "r")
-    x, y, z, direction = tonumber(file.readLine()), tonumber(file.readLine()), tonumber(file.readLine()), tonumber(file.readLine())
+    x, y, z, direction = tonumber(file.readLine()), tonumber(file.readLine()), tonumber(file.readLine()),
+    tonumber(file.readLine())
     invertDirection = file.readLine() == "true"
     file.close()
     -- check if we were on a boundary block first
@@ -413,7 +423,8 @@ if fs.exists("jackmacwindows.farm-state.txt") then
             exchangeItems()
         end
     end
-elseif not peripheral.find("minecraft:chest") or not peripheral.find("modem", function(_, m) return not m.isWireless() end) then
+elseif not peripheral.find("minecraft:chest") or not peripheral.find("modem", function(_, m)
+return not m.isWireless() end) then
     print[[
 Please move the turtle to the starting position next to a modem with a chest.
 The expected setup is the turtle next to a wired modem block, with a chest next to that modem block.
